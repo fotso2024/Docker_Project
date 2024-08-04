@@ -1,0 +1,20 @@
+# Specify base image
+FROM fedora
+
+# Set labels
+LABEL maintainer="fotso" \
+      description="This Dockerfile installs and manages Apache"
+
+# Update the system and install httpd
+RUN dnf -y update && \
+    dnf -y install httpd
+
+# Copy the index file to the container
+COPY index.html /var/www/html/
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache in the foreground
+ENTRYPOINT ["/usr/sbin/httpd"]
+CMD ["-D", "FOREGROUND"]
